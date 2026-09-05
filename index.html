@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drift — an ambient space</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="scene"></canvas>
+
+  <canvas id="grain"></canvas>
+
+  <div id="vignette"></div>
+
+  <!-- Entry overlay: audio needs a user gesture to start -->
+  <div id="overlay">
+    <div id="overlay-inner">
+      <h1>Drift</h1>
+      <p>A small ambient space. Rain, a low drone, and scattered chimes —<br>mixed by you, never quite the same twice.</p>
+      <button id="enter-btn">Begin</button>
+      <p class="hint">Headphones recommended. Turn your volume up a little.</p>
+    </div>
+  </div>
+
+  <main id="app" hidden>
+    <div id="panel">
+      <div class="panel-row title-row">
+        <span id="app-title">Drift</span>
+        <button id="mute-btn" title="Mute/unmute" aria-label="Mute or unmute">🔊</button>
+      </div>
+
+      <div class="slider-group">
+        <label for="rain">Rain</label>
+        <input type="range" id="rain" min="0" max="100" value="35">
+      </div>
+      <div class="slider-group">
+        <label for="drone">Drone</label>
+        <input type="range" id="drone" min="0" max="100" value="30">
+      </div>
+      <div class="slider-group">
+        <label for="chimes">Chimes</label>
+        <input type="range" id="chimes" min="0" max="100" value="45">
+      </div>
+
+      <div class="panel-row palette-row">
+        <span class="palette-label">Mood</span>
+        <div id="palette-picker">
+          <button class="palette-swatch" data-palette="bloom" title="Bloom"></button>
+          <button class="palette-swatch" data-palette="meadow" title="Meadow"></button>
+          <button class="palette-swatch" data-palette="dawn" title="Dawn"></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
