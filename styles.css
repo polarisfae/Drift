@@ -273,6 +273,10 @@ input[type="range"]::-moz-range-thumb {
   background: linear-gradient(135deg, #ffb37a, #ffd58c);
 }
 
+.palette-swatch[data-palette="dusk"] {
+  background: linear-gradient(135deg, #a8b8e0, #c9a8d0);
+}
+
 @media (max-width: 480px) {
   #overlay-inner h1 {
     font-size: 1.9rem;

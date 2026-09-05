@@ -16,6 +16,11 @@ const PALETTES = {
     blobs: ['#ffb37a', '#ffd58c', '#ff8f7a', '#f2c9d8'],
     ripple: '#8a4a2e',
   },
+  dusk: {
+    bg: [237, 236, 242],
+    blobs: ['#a8b8e0', '#c9a8d0', '#f0d8a8', '#8f9fd8'],
+    ripple: '#4a4a72',
+  },
 };
 
 function lerp(a, b, t) { return a + (b - a) * t; }
