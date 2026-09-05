@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Drift — a small ambient space. Mix rain, a low drone, and scattered chimes over soft diffused visuals.">
 <title>Drift — an ambient space</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='38' cy='42' r='30' fill='%23f3b8c8'/%3E%3Ccircle cx='62' cy='55' r='26' fill='%23c9b8e8' fill-opacity='0.85'/%3E%3Ccircle cx='50' cy='68' r='22' fill='%23f5e0a8' fill-opacity='0.75'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -46,10 +48,10 @@
 
       <div class="panel-row palette-row">
         <span class="palette-label">Mood</span>
-        <div id="palette-picker">
-          <button class="palette-swatch" data-palette="bloom" title="Bloom"></button>
-          <button class="palette-swatch" data-palette="meadow" title="Meadow"></button>
-          <button class="palette-swatch" data-palette="dawn" title="Dawn"></button>
+        <div id="palette-picker" role="group" aria-label="Color mood">
+          <button class="palette-swatch" data-palette="bloom" title="Bloom" aria-label="Bloom"></button>
+          <button class="palette-swatch" data-palette="meadow" title="Meadow" aria-label="Meadow"></button>
+          <button class="palette-swatch" data-palette="dawn" title="Dawn" aria-label="Dawn"></button>
         </div>
       </div>
     </div>

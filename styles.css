@@ -99,15 +99,17 @@ html, body {
   letter-spacing: 0.05em;
   padding: 0.85rem 2.2rem;
   border-radius: 999px;
-  border: 1px solid var(--panel-border);
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(74, 64, 56, 0.35);
+  background: rgba(255, 255, 255, 0.65);
   color: var(--text);
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.15s ease;
+  box-shadow: 0 2px 12px rgba(74, 64, 56, 0.08);
+  transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
 }
 
 #enter-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 16px rgba(74, 64, 56, 0.14);
   transform: translateY(-1px);
 }
 

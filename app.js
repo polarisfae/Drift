@@ -18,11 +18,6 @@ const PALETTES = {
   },
 };
 
-let currentPalette = 'bloom';
-let paletteFrom = PALETTES.bloom;
-let paletteTo = PALETTES.bloom;
-let paletteT = 1; // 0..1 transition progress
-
 function lerp(a, b, t) { return a + (b - a) * t; }
 function lerpRGB(a, b, t) {
   return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
@@ -31,6 +26,22 @@ function hexToRgb(hex) {
   const n = parseInt(hex.slice(1), 16);
   return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
 }
+
+// Palettes normalized to [r,g,b] arrays throughout, so transitions can always
+// interpolate directly without re-parsing color-string formats.
+const PALETTES_RGB = {};
+for (const [name, p] of Object.entries(PALETTES)) {
+  PALETTES_RGB[name] = {
+    bg: p.bg,
+    blobs: p.blobs.map(hexToRgb),
+    ripple: hexToRgb(p.ripple),
+  };
+}
+
+let currentPalette = 'bloom';
+let paletteFrom = PALETTES_RGB.bloom;
+let paletteTo = PALETTES_RGB.bloom;
+let paletteT = 1; // 0..1 transition progress
 
 // ---------- Canvas / visuals ----------
 
@@ -104,9 +115,7 @@ function draw(now) {
     const pulse = 1 + 0.18 * Math.sin((t / b.period) * Math.PI * 2 + b.phase);
     const r = b.baseRadius * pulse;
 
-    const cFrom = hexToRgb(colorsFrom[b.colorIndex]);
-    const cTo = hexToRgb(colorsTo[b.colorIndex]);
-    const c = lerpRGB(cFrom, cTo, paletteT);
+    const c = lerpRGB(colorsFrom[b.colorIndex], colorsTo[b.colorIndex], paletteT);
 
     const grad = ctx2d.createRadialGradient(b.x, b.y, 0, b.x, b.y, r);
     grad.addColorStop(0, `rgba(${c[0] | 0}, ${c[1] | 0}, ${c[2] | 0}, 0.9)`);
@@ -121,8 +130,7 @@ function draw(now) {
   ctx2d.filter = 'none';
   ctx2d.globalCompositeOperation = 'source-over';
 
-  const rippleColorHex = paletteT >= 0.5 ? paletteTo.ripple : paletteFrom.ripple;
-  const rc = hexToRgb(rippleColorHex);
+  const rc = paletteT >= 0.5 ? paletteTo.ripple : paletteFrom.ripple;
   for (let i = ripples.length - 1; i >= 0; i--) {
     const r = ripples[i];
     r.r += 0.6;
@@ -424,24 +432,32 @@ muteBtn.addEventListener('click', () => {
 });
 
 document.querySelectorAll('.palette-swatch').forEach((btn) => {
-  if (btn.dataset.palette === currentPalette) btn.classList.add('active');
+  const isCurrent = btn.dataset.palette === currentPalette;
+  btn.classList.toggle('active', isCurrent);
+  btn.setAttribute('aria-pressed', isCurrent ? 'true' : 'false');
+
   btn.addEventListener('click', () => {
     const name = btn.dataset.palette;
     if (name === currentPalette) return;
-    paletteFrom = { ...PALETTES[currentPalette] };
-    // capture the actual current blend as the new "from" so transitions don't jump
-    const blended = { bg: lerpRGB(paletteFrom.bg, paletteTo.bg, paletteT), blobs: [], ripple: paletteT >= 0.5 ? paletteTo.ripple : paletteFrom.ripple };
-    for (let i = 0; i < 4; i++) {
-      const a = hexToRgb(paletteFrom.blobs[i]);
-      const b = hexToRgb(paletteTo.blobs[i]);
-      const c = lerpRGB(a, b, paletteT);
-      blended.blobs.push(`rgb(${c[0] | 0}, ${c[1] | 0}, ${c[2] | 0})`);
-    }
+
+    // Snapshot whatever is actually on screen right now (which may itself be
+    // mid-transition) as the new "from", so switching moods again before a
+    // transition finishes doesn't cause a visible color jump.
+    const blended = {
+      bg: lerpRGB(paletteFrom.bg, paletteTo.bg, paletteT),
+      blobs: paletteFrom.blobs.map((c, i) => lerpRGB(c, paletteTo.blobs[i], paletteT)),
+      ripple: lerpRGB(paletteFrom.ripple, paletteTo.ripple, paletteT),
+    };
+
     paletteFrom = blended;
-    paletteTo = PALETTES[name];
+    paletteTo = PALETTES_RGB[name];
     paletteT = 0;
     currentPalette = name;
-    document.querySelectorAll('.palette-swatch').forEach((b) => b.classList.remove('active'));
-    btn.classList.add('active');
+
+    document.querySelectorAll('.palette-swatch').forEach((b) => {
+      const active = b === btn;
+      b.classList.toggle('active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
   });
 });
