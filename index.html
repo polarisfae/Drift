@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Drift — a small ambient space. Mix rain, a low drone, and scattered chimes over soft diffused visuals.">
+<title>Drift — an ambient space</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='38' cy='42' r='30' fill='%23f3b8c8'/%3E%3Ccircle cx='62' cy='55' r='26' fill='%23c9b8e8' fill-opacity='0.85'/%3E%3Ccircle cx='50' cy='68' r='22' fill='%23f5e0a8' fill-opacity='0.75'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="scene"></canvas>
+
+  <canvas id="grain"></canvas>
+
+  <div id="vignette"></div>
+
+  <!-- Entry overlay: audio needs a user gesture to start -->
+  <div id="overlay">
+    <div id="overlay-inner">
+      <h1>Drift</h1>
+      <p>A small ambient space. Rain, a low drone, and scattered chimes —<br>mixed by you, never quite the same twice.</p>
+      <button id="enter-btn">Begin</button>
+      <p class="hint">Headphones recommended. Turn your volume up a little.</p>
+    </div>
+  </div>
+
+  <main id="app" hidden>
+    <div id="panel">
+      <div class="panel-row title-row">
+        <span id="app-title">Drift</span>
+        <button id="mute-btn" title="Mute/unmute" aria-label="Mute or unmute">🔊</button>
+      </div>
+
+      <div class="slider-group">
+        <label for="rain">Rain</label>
+        <input type="range" id="rain" min="0" max="100" value="35">
+      </div>
+      <div class="slider-group">
+        <label for="drone">Drone</label>
+        <input type="range" id="drone" min="0" max="100" value="30">
+      </div>
+      <div class="slider-group">
+        <label for="chimes">Chimes</label>
+        <input type="range" id="chimes" min="0" max="100" value="45">
+      </div>
+
+      <div class="panel-row palette-row">
+        <span class="palette-label">Mood</span>
+        <div id="palette-picker" role="group" aria-label="Color mood">
+          <button class="palette-swatch" data-palette="bloom" title="Bloom" aria-label="Bloom"></button>
+          <button class="palette-swatch" data-palette="meadow" title="Meadow" aria-label="Meadow"></button>
+          <button class="palette-swatch" data-palette="dawn" title="Dawn" aria-label="Dawn"></button>
+          <button class="palette-swatch" data-palette="dusk" title="Dusk" aria-label="Dusk"></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
