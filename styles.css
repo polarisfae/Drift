@@ -93,6 +93,13 @@ html, body {
   opacity: 0.7;
 }
 
+#overlay-inner p.signature {
+  margin-top: 0.75rem;
+  font-size: 0.78rem;
+  font-style: italic;
+  opacity: 0.55;
+}
+
 #enter-btn {
   font-family: inherit;
   font-size: 1rem;
